@@ -39,3 +39,6 @@
 
 # debug information files
 *.dwo
+
+# Book specific libraries
+std_lib_facilities.h
