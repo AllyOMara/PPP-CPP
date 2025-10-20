@@ -13,7 +13,7 @@ To compile files from Chapter 02, add [std_lib_facilities.h](https://github.com/
 <br><br>
 
 ## Notes
-[std_lib_facilities.h](https://github.com/AllyOMara/PPP-CPP/tree/main/Libraries) is a simple header specific to Programming Principles and Practice Using C++, utilised in the first few chapters.<br><br>
+[std_lib_facilities.h](https://github.com/AllyOMara/PPP-CPP/tree/main/Libraries) is a simple header specific to Programming Principles and Practice Using C++, utilised in the first few chapters. For proper compiling, please ensure it is placed in the same folder.
 <br><br>
 
 ## Sources
