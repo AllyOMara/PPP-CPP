@@ -7,9 +7,9 @@ int main()
 
     cout << "Please enter your name, and your age.\n";
     string userName;
-    int userAge;
+    double userAge;
     cin >> userName >> userAge;
-    int userAgeMonths = userAge * 12;
+    double userAgeMonths = userAge * 12;
     cout << "Hello, " << userName << "! You are currently " << userAgeMonths << " months old.\n";
     keep_window_open();
     return 0;
