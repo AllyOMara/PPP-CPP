@@ -3,6 +3,7 @@
 
 int main()
 {
+
     cout << "Please enter an integer: ";
     int n;
     cin >> n;
@@ -17,4 +18,5 @@ int main()
     << '\n'; // another name for newline (“end of line”) in output
     keep_window_open();
     return 0;
+
 }
