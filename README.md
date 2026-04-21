@@ -6,8 +6,8 @@ To compile files from Chapter 02, add [std_lib_facilities.h](https://github.com/
 <br><br>
 
 ## Chapters
-[Chapter 02](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_02)<br>
-[Chapter 03](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_03)<br>
+#### [Chapter 02](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_02)<br><br>
+#### [Chapter 03](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_03)<br><br>
 <br><br>
 
 ## Notable Projects
