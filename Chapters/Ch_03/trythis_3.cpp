@@ -6,7 +6,7 @@ int main()
 
  string previous = " "; 
  string current;
- while (cin>>current) {
+ while (cin>>current) {     // Reads a stream of words
     if (previous == current)
         cout << "repeated word: " << current << '\n';
         previous = current;
