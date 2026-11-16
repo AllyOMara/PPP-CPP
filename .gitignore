@@ -41,4 +41,4 @@
 *.dwo
 
 # header files
-.h
+*.h
