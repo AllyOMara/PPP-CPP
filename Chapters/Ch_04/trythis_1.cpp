@@ -19,6 +19,8 @@ int main()
         cout << amount << " kroner in dollars is $" << amount * 0.1036;
     } else if (unit == "p") {
         cout << amount << " pounds in dollars is $" << amount * 1.318;
+    } else {
+        cout << "Invalid input.";
     }
 
     cout << "\n";
