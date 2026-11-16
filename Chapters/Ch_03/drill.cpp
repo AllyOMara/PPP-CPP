@@ -4,7 +4,7 @@
 
 int main()
 {
-    // User details
+    // User details (input)
     cout << "What is your name? ";
     string your_name;
     cin >> your_name;
