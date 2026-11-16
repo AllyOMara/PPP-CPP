@@ -1,0 +1,3 @@
+How to compile:
+1. Ensure your're in the target file's directory
+2. g++ -o (output file name) (target file name.cpp)
