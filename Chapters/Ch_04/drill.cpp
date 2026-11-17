@@ -4,7 +4,7 @@
 #include "std_lib_facilities.h"
 
 // Step 9
-double convert_to_meters(int value, string unit)
+double convertToMeters(int value, string unit)
 {
     if (unit == "cm") {
         return value / 100;
@@ -62,28 +62,29 @@ int main()
     cout << "x. Inches      (in)\n";
     cout << "x. Feet        (ft)\n\n";
 
-    double new_num;
-    double smallest_num = INFINITY;
-    double largest_num = -INFINITY;
-    string num_unit; // Step 7
-    double sum_of_values = 0;
+    double newNum;
+    double smallestNum = INFINITY;
+    double largestNum = -INFINITY;
+    string numUnit; // Step 7
+    double sumOfNums = 0;
+    vector<double> allNums;
 
-    while (cin >> new_num >> num_unit) {
-        if (num_unit == "cm" || num_unit == "m" || num_unit == "in" || num_unit == "ft") {
-            cout << "Number inputted: " << new_num << "\n";
-            cout << "Unit inputted: " << num_unit << "\n";
-            if (new_num < smallest_num) {
+    while (cin >> newNum >> numUnit) {
+        if (numUnit == "cm" || numUnit == "m" || numUnit == "in" || numUnit == "ft") {
+            cout << "Number inputted: " << newNum << "\n";
+            cout << "Unit inputted: " << numUnit << "\n";
+            if (newNum < smallestNum) {
                 cout << "The smallest so far\n";
-                smallest_num = new_num;
+                smallestNum = newNum;
             }
-            if (new_num > largest_num) {
+            if (newNum > largestNum) {
                 cout << "The largest so far\n";
-                largest_num = new_num;
+                largestNum = newNum;
             }
             // Step 9
-            double new_num_in_m = convert_to_meters(new_num, num_unit);
-            sum_of_values += new_num_in_m;
-            cout << "The sum of all values so far is: " << sum_of_values << ".\n";
+            double newNumInMeters = convertToMeters(newNum, numUnit);
+            sumOfNums += newNumInMeters;
+            cout << "The sum of all values so far is: " << sumOfNums << ".\n";
 
         } else { // Step 8
             cout << "Unit is not recognised. Please enter a value with an accepted unit.";
