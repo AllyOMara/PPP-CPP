@@ -1,0 +1,64 @@
+// Write a program that takes user input (terminating if "|" is entered) and
+// does various things to it (explained below).
+
+#include "std_lib_facilities.h"
+
+double convert_to_meters(int value, string unit)
+{
+    return 0.0; // FILL HERE
+}
+
+
+int main()
+{
+
+/*
+    // Step 1
+    cout << "Please enter your two numbers below.\n";
+    double num_1; // Step 4 (changed to doubles instead of ints)
+    double num_2;
+
+    while (cin >> num_1 >> num_2) {
+        cout << "\n";
+
+        // Step 2
+        if (num_1 < num_2) {
+            cout << "The smaller value is: " << num_1 << "\n";
+            cout << "The larger value is: " << num_2 << "\n";
+            if (num_2 - num_1 <= 1.0/100) {
+                cout << "The numbers are almost equal." << "\n"; // Step 5
+            }
+        } else if (num_1 > num_2) {
+            cout << "The smaller value is: " << num_2 << "\n";
+            cout << "The larger value is: " << num_1 << "\n";
+            if (num_1 - num_2 <= 1.0/100) {
+                cout << "The numbers are almost equal." << "\n"; // Step 5
+            }
+        }
+
+        // Step 3
+        else if (num_1 == num_2) {
+            cout << "The numbers are equal" << "\n";
+        }
+
+
+    }
+*/
+
+    // Step 6
+    double new_num;
+    double smallest_num = INFINITY;
+    double largest_num = -INFINITY;
+    string num_unit; // Step 7
+    while (cin >> new_num >> num_unit) {
+        cout << new_num << "\n";
+        if (new_num < smallest_num) {
+            cout << "The smallest so far\n";
+            smallest_num = new_num;
+        }
+        if (new_num > largest_num) {
+            cout << "The largest so far\n";
+            largest_num = new_num;
+        }
+    }
+}
