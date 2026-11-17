@@ -3,9 +3,19 @@
 
 #include "std_lib_facilities.h"
 
+// Step 9
 double convert_to_meters(int value, string unit)
 {
-    return 0.0; // FILL HERE
+    if (unit == "cm") {
+        return value / 100;
+    } else if (unit == "m") {
+        return value;
+    } else if (unit == "in") {
+        return value * 0.0254;
+    } else if (unit == "ft") {
+        return value * 0.3048; 
+    }
+    return 0.0;
 }
 
 
@@ -56,6 +66,7 @@ int main()
     double smallest_num = INFINITY;
     double largest_num = -INFINITY;
     string num_unit; // Step 7
+    double sum_of_values = 0;
 
     while (cin >> new_num >> num_unit) {
         if (num_unit == "cm" || num_unit == "m" || num_unit == "in" || num_unit == "ft") {
@@ -69,6 +80,11 @@ int main()
                 cout << "The largest so far\n";
                 largest_num = new_num;
             }
+            // Step 9
+            double new_num_in_m = convert_to_meters(new_num, num_unit);
+            sum_of_values += new_num_in_m;
+            cout << "The sum of all values so far is: " << sum_of_values << ".\n";
+
         } else { // Step 8
             cout << "Unit is not recognised. Please enter a value with an accepted unit.";
         }
