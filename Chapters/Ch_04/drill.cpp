@@ -4,7 +4,7 @@
 #include "std_lib_facilities.h"
 
 // Step 9
-double convertToMeters(int value, string unit)
+double convertToMeters(double value, string unit)
 {
     if (unit == "cm") {
         return value / 100;
@@ -89,8 +89,11 @@ int main()
             ++numInputted;
             cout << "The number of inputted values is: " << numInputted << ".\n";
 
+            // Step 10
+            allNums.push_back(newNumInMeters);
+
         } else { // Step 8
-            cout << "Unit is not recognised. Please enter a value with an accepted unit.";
+            cout << "Unit is not recognised. Please enter a value with an accepted unit.\n";
         }
     
     // Step 9
@@ -98,5 +101,14 @@ int main()
     cout << "The largest value is: " << largestNum << " meters.\n";
     cout << "The number of values inputted is: " << numInputted << ".\n";
     cout << "The total sum of all inputted values (so far) is: " << sumOfNums << " meters.\n";
+
+    // Step 10
+    cout << "All numbers inputted so far: ";
+    sort(allNums); // Step 11
+    for (double num : allNums) {
+        cout << num << ", ";
     }
+    cout << "\n\n";
+    }
+
 }
