@@ -62,12 +62,13 @@ int main()
     cout << "x. Inches      (in)\n";
     cout << "x. Feet        (ft)\n\n";
 
+    int numInputted = 0;
     double newNum;
     double smallestNum = INFINITY;
     double largestNum = -INFINITY;
     string numUnit; // Step 7
     double sumOfNums = 0;
-    vector<double> allNums;
+    vector<double> allNums; // Step 10
 
     while (cin >> newNum >> numUnit) {
         if (numUnit == "cm" || numUnit == "m" || numUnit == "in" || numUnit == "ft") {
@@ -85,10 +86,17 @@ int main()
             double newNumInMeters = convertToMeters(newNum, numUnit);
             sumOfNums += newNumInMeters;
             cout << "The sum of all values so far is: " << sumOfNums << ".\n";
+            ++numInputted;
+            cout << "The number of inputted values is: " << numInputted << ".\n";
 
         } else { // Step 8
             cout << "Unit is not recognised. Please enter a value with an accepted unit.";
         }
-
+    
+    // Step 9
+    cout << "The smallest value is: " << smallestNum << " meters.\n";
+    cout << "The largest value is: " << largestNum << " meters.\n";
+    cout << "The number of values inputted is: " << numInputted << ".\n";
+    cout << "The total sum of all inputted values (so far) is: " << sumOfNums << " meters.\n";
     }
 }
