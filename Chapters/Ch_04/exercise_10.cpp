@@ -13,6 +13,11 @@
 
 char getWinner(char userChoice, char computerChoice)
 {
+    // Returns one of: 'u', 'c', and 'n'.
+    // 'u' = the user won.
+    // 'c' = the computer won.
+    // 'n' = no one won.
+
     switch (userChoice) {
         case 'r':
             switch (computerChoice) {
@@ -42,14 +47,27 @@ char getWinner(char userChoice, char computerChoice)
                     return 'n';
             }
     }
+
+    // Returns an error if none of these cases occur.
+    cout << "UserChoice: " << userChoice;
+    cout << "computerChoice: " << computerChoice;
+    simple_error("Error in getWinner");
     return 'n';
 }
 
 
 int main()
 {
-    cout << ""; // INTRO PART
+    // Introduction
+    cout << "Welcome to Rock, Paper, Scissors!\n";
+    cout << "The rules are simple: Choose either (r)ock, (p)aper, or (s)cissors.\n";
+    cout << "To enter your choice, please type its corresponding (lowercase) letter into the terminal.\n";
+    cout << "For example, if you want to choose 'Rock', you would input 'r' into the terminal.\n";
+    cout << "The computer will generate a response and determine who is the winner.\n";
+    cout << "Once you're done, we'll look at the scoreboard and see who the overall winner is.\n\n";
     cout << "Ready? (y)es or (n)o.\n";
+
+    // Setup
     char userPlay;
     cin >> userPlay;
     vector<char> computerOptions = {'r', 'p', 's'};
@@ -75,6 +93,7 @@ int main()
             cin >> userChoice;
         }
 
+        // Get the computer's choice
         computerChoiceNum = randint(0, 2);
         computerChoice = computerOptions[computerChoiceNum];
         cout << "The computer played ";
@@ -83,9 +102,9 @@ int main()
             case 'p': cout << "paper.\n"; break;
             case 's': cout << "scissors.\n"; break;
         }
-        roundWinner = getWinner(userChoice, computerChoice);
 
-        // Output who won
+        // Find and output who won
+        roundWinner = getWinner(userChoice, computerChoice);
         switch (roundWinner){
             case 'u': // User won
                 cout << "You win this round! 1 Point to the human.\n";
@@ -106,9 +125,20 @@ int main()
         cin >> userPlay;
     }
 
+    // Overall result
     if (numRounds != 0) {
-        cout << "~~~~~\n\n~~~~~\nYou got: " << userPoints << " points!\n";
-        cout << "The computer got: " << computerPoints << " points!\n";
+        cout << "~~~~~\n\n~~~~~\nYou got: " << userPoints;
+        if (userPoints == 1) {
+            cout << " point.\n";
+        } else {
+            cout << " points.\n";
+        }
+        cout << "The computer got: " << computerPoints;
+        if (computerPoints == 1) {
+            cout << " point.\n";
+        } else {
+            cout << " points.\n";
+        }
         cout << "The final winner is ... ";
         if (userPoints > computerPoints) {
             cout << "the human! Congratulations!\n";
