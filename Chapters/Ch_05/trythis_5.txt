@@ -1,0 +1,2 @@
+Good values for min_temp: -150°F or -145°F should be sufficient
+Good values for max_temp: 135°F or 140°F should be sufficient
