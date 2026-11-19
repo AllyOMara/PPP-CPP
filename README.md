@@ -18,6 +18,7 @@ ______________________
 [Chapter 02 - Hello, World!](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_02)<br><br>
 [Chapter 03 - Objects, Types, and Values](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_03)<br><br>
 [Chapter 04 - Computation](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_04)<br><br>
+[Chapter 05 - Errors](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_05)<br><br>
 <br><br>
 
 
