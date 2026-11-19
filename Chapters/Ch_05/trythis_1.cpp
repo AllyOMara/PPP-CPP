@@ -1,5 +1,5 @@
 // Try to compile those examples (i.e. those examples of errors) and see how the
-// compiler responds.
+// compiler responds. (Syntax errors).
 
 #include "std_lib_facilities.h"
 
