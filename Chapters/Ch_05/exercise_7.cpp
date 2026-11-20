@@ -8,7 +8,10 @@
 
 #include "std_lib_facilities.h"
 
+
 class notReal {};
+class badAns {};
+
 
 void checkReal(double a, double b, double c)
 {
@@ -29,6 +32,17 @@ vector<double> getRoots(double a, double b, double c)
         roots.push_back(root_1);
         roots.push_back(root_2);
     }
+    return roots;
+}
+
+
+void checkAnswers(vector<double> answers, double a, double b, double c)
+{
+    for (double answer : answers) {
+        if (((a * answer * answer) + (b * answer) + c) != 0) {
+            throw badAns{};
+        }
+    }
 }
 
 
@@ -41,6 +55,7 @@ try {
     cin >> a >> b >> c;
     checkReal(a, b, c);
     vector<double> answers = getRoots(a, b, c);
+    checkAnswers(answers, a, b, c);
     if (size(answers) == 1) {
         cout << "The root is: " << answers[0] << ".";
     } else {
@@ -51,5 +66,9 @@ try {
 }
 catch (notReal) {
     cout << "There are no solutions for the inputted values.\n";
+    keep_window_open();
+}
+catch (badAns) {
+    cout << "There is something wrong with the function getRoots.\n";
     keep_window_open();
 }
