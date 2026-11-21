@@ -11,7 +11,7 @@ ______________________
 <br>
 
 > [!IMPORTANT]
-> Please copy and paste [std_lib_facilities.h](https://github.com/AllyOMara/PPP-CPP/tree/main/Libraries) into the desired directory (Ch_02, Ch_03, etc.) to compile files.
+> Please add [std_lib_facilities.h](https://github.com/AllyOMara/PPP-CPP/tree/main/Libraries) into the desired directory (Ch_02, Ch_03, etc.) to compile files.
 <br>
 
 ## Chapters
