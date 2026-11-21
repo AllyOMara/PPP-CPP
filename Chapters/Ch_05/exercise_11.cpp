@@ -9,7 +9,7 @@ int main()
     vector<int> fibList = {1, 1};
     int firstIndex = 0;
     int secondIndex = 1;
-    double nextFibDouble = fibList[firstIndex] + fibList[secondIndex];
+    double nextFibDouble = fibList[firstIndex] + fibList[secondIndex] * 1.0;
     int nextFib;
 
     while (nextFibDouble < MAX_INT) {
@@ -17,6 +17,9 @@ int main()
         fibList.push_back(nextFib);
         ++firstIndex;
         ++secondIndex;
-        nextFibDouble = fibList[firstIndex] + fibList[secondIndex];
+        nextFibDouble = fibList[firstIndex] + fibList[secondIndex] * 1.0;
     }
+    cout << endl << fibList[fibList.size() - 1] << endl;
+    keep_window_open();
+    return 0;
 }
