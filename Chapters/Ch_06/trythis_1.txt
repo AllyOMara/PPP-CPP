@@ -1,0 +1,24 @@
+If both a + and a * are in the same line:
+    x. Read the input first (ordinary left to right order) and tokenise the values
+    x. Scan for which the operation that takes priority in BODMAS (the order of operations)
+    x. Evaluate the expression involving the numbers to the operation's right and left
+    x. Continue doing this until there are no more operations, and (thus) we are left with a number (our result)
+    x. e.g.:    1 + 2 * 3   (we recognise that * comes before +)
+                1 + 6       (now + is our next priority)
+                7           (our result)
+    x. We can evaluate ties (e.g. 1 * 2 * 3) in a left-to-right manner
+        --> this makes sense since 1 / 2 / 3 is typically read as (1 / 2) / 3 and not 1 / (2 / 3), which is = 3 / 2
+    x. We scan the vector of tokens looking for operations according to BODMAS
+        --> First we look for (B)rackets, then (O)f (i.e. exponents), etc.
+        --> When we complete the vector and evaluate all sub-expressions including an operation, we move to the next operation
+            --> e.g. we scan through 1 + 2 * 3 and see no brackets, so we move to exponents, etc.
+
+Errors
+    x. These will be more difficult to deal with
+    x. An error such as inputting "2 & 3" could be checked when the token is initialised
+        --> e.g. if the kind is not "+", "*", etc. then throw an error
+    x. An error such as 2 +* 3 can be checked when the expression is being evaluated
+        --> we notice that * comes before +
+        --> we read the tokens before and after *
+        --> BUT we notice that the tokens are + and 3, and + is not of kind number
+        --> Thus we reject the input as the expression can not be evaluated
