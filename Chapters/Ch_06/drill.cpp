@@ -76,8 +76,8 @@ Token Token_stream::get()
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 
     switch (ch) {
-    case ';':    // for "print"
-    case 'q':    // for "quit"
+    case '=':    // for "print"
+    case 'x':    // for "quit"
     case '(': case ')': case '+': case '-': case '*': case '/':
         return Token{ch};        // let each character represent itself
     case '.':
@@ -184,18 +184,18 @@ double expression()
 int main()
 try
 {
-    double value = 0.0;
+    double val = 0.0;
     while (cin) {
         Token t = ts.get();
 
-        if (t.kind == 'q') break; // 'q' for quit
-        if (t.kind == ';')        // ';' for "print now"
-            cout << "=" << value << '\n';
+        if (t.kind == 'x') break; // 'q' for quit (changed, step 2)
+        if (t.kind == '=')        // ';' for "print now" (changed, step 3)
+            cout << "=" << val << '\n';
         else
             ts.putback(t);
-        value = expression();
+        val = expression();
     }
-    keep_window_open();
+    keep_window_open("Thank you for using the calculator.\n");
 }
 catch (exception& e) {
     cerr << "error: " << e.what() << '\n';
