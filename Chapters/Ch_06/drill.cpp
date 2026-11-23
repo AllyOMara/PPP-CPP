@@ -184,6 +184,23 @@ double expression()
 int main()
 try
 {
+    cout << "Welcome to our simple calculator.\n";
+    cout << "Please enter expressions using floating-point numbers.\n";
+    cout << "~ ~ ~ ~ ~ ~ ~\n";
+    cout << "Please enter a character to continue. For a quick tutorial, please enter 't'.\n";
+    char tutorial;
+    cin >> tutorial;
+    if (tutorial == 't') {
+        cout << "\n~ ~ ~ ~ ~ ~ ~\n\n";
+        cout << "This program supports +, -, *, /, and brackets.\n";
+        cout << "To get your answer printed, please conclude your statement with '='.\n";
+        cout << "To quit, please enter 'x'.\n\n";
+        cout << "Example input:\n";
+        cout << "x. 1+2*3= \nx. 4+5+6*7= \nx. 9/3= \nx. 100*(3/5)= \nx. 55*3/(2+6/4)=";
+        cout << "\n\n~ ~ ~ ~ ~ ~ ~\n\n";
+    }
+    
+    cout << "The calculator has started. Please enter your input below.\n";
     double val = 0.0;
     while (cin) {
         Token t = ts.get();
