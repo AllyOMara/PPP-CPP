@@ -17,7 +17,7 @@
 
 */
 
-// Now supports '(', ')', '{', and '}'.
+// Now supports '(', ')', '{', and '}'. (exercise 2)
 
 #include "std_lib_facilities.h"
 
