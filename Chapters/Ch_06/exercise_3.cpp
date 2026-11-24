@@ -146,7 +146,7 @@ double primary()
         {
             Token t1 = ts.get();
             if (t1.kind == '!') {return factorial(t.value);}
-            else {ts.putback(t); return t.value;}  // return the number's value
+            else {ts.putback(t1); return t.value;}  // return the number's value
         }
         default:
         {
@@ -155,8 +155,6 @@ double primary()
         }
     }
 }
-
-
 
 
 // deal with *, /, and %
@@ -229,11 +227,11 @@ try
     cin >> tutorial;
     if (tutorial == 't') {
         cout << "\n~ ~ ~ ~ ~ ~ ~\n\n";
-        cout << "This program supports +, -, *, /, and brackets (both '(' and '{').\n";
+        cout << "This program supports +, -, *, /, ! (factorial), and brackets (both '(' and '{').\n";
         cout << "To get your answer printed, please conclude your statement with '='.\n";
         cout << "To quit, please enter 'x'.\n\n";
         cout << "Example input:\n";
-        cout << "x. 1+2*3= \nx. 4+5+6*7= \nx. 9/3= \nx. 100*(3/5)= \nx. 55*3/(2+6/4)=";
+        cout << "x. 1+2*3= \nx. 4+5+6*7= \nx. 9/3= \nx. 100*(3/5)= \nx. 55*{3!}/(2+6/4)=";
         cout << "\n\n~ ~ ~ ~ ~ ~ ~\n\n";
     }
     
