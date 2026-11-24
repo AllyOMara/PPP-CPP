@@ -108,6 +108,7 @@ vector<int> convertToVector(string guessString)
 
 int main()
 try {
+    double seedDouble;
     int seed;
     vector<int> set;
     string userGuessString;    
@@ -117,9 +118,10 @@ try {
     int score = 100;
 
     cout << "Please enter a random integer between 0 and 2147483647 (this will be the seed).\n";
-    cin >> seed;
-    if (seed < 0) throw seedOutOfRange{};
-    if (seed > 2147483647) throw seedOutOfRange{};
+    cin >> seedDouble;
+    if (seedDouble < 0) throw seedOutOfRange{};
+    if (seedDouble > 2147483647) throw seedOutOfRange{};
+    seed = int(seedDouble);
 
     set = createRandomSet(seed);
 
