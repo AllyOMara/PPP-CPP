@@ -3,7 +3,7 @@
 #include "std_lib_facilities.h"
 
 
-class badInput{};
+class repeatedLetterInGuess{};
 class seedOutOfRange{};
 
 
@@ -98,7 +98,7 @@ vector<int> convertToVector(string guessString)
                 break;
             default:
                 cerr << "Invalid guess.\n";
-                throw badInput{};
+                throw repeatedLetterInGuess{};
                 break;
         }
     }
@@ -142,7 +142,7 @@ try {
     keep_window_open();
     return 0;
 }
-catch (badInput) {
+catch (repeatedLetterInGuess) {
     cerr << "\n";
     keep_window_open();
 }
