@@ -20,6 +20,7 @@ ______________________
 [Chapter 04 - Computation](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_04)<br><br>
 [Chapter 05 - Errors](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_05)<br><br>
 [Chapter 06 - Writing a Program](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_06)<br><br>
+[Chapter 07 - Completing A Program](https://github.com/AllyOMara/PPP-CPP/tree/main/Chapters/Ch_07)<br><br>
 <br><br>
 
 
