@@ -296,11 +296,24 @@ void calculate()
 }
 
 
+void introduction()
+{
+	cout << "Welcome to the calculator!\n\n~ ~ ~ ~ ~ ~ ~";
+	cout << "The following operations are supported:\n";
+	cout << "Basic arithmetic: +, -, *, /, % (modulo)";
+	cout << "Variable assignment: let [var name] = [value / expression]";
+	cout << "Basic functions: sqrt(expression / value)";
+	cout << "Basic constants: k (= 1000), pi, and e";
+}
+
+
+
 void predefineVars()
 {
     // List of predefined variables
     names.push_back(Variable("k", 1000));
     names.push_back(Variable("pi", 3.14159));
+	names.push_back(Variable("e", 2.71828));
 }
 
 
