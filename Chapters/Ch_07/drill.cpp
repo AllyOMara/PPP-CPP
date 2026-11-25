@@ -13,15 +13,16 @@ struct Token {
 	char kind;
 	double value;
 	string name;
-	Token(char ch) :kind(ch), value(0) { }
-	Token(char ch, double val) :kind(ch), value(val) { }
+	Token(char ch) :kind(ch), value(0) {}
+	Token(char ch, double val) :kind(ch), value(val) {}
 };
 
 class Token_stream {
-	bool full;
+private:
+    bool full;
 	Token buffer;
 public:
-	Token_stream() :full(0), buffer(0) { }
+	Token_stream() :full(0), buffer(0) {}
 
 	Token get();
 	void unget(Token t) { buffer = t; full = true; }
@@ -74,10 +75,11 @@ Token Token_stream::get()
 			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s = ch;
 			cin.unget();
 			if (s == "let") return Token(let);
-			if (s == "quit") return Token(name);
-			return Token(name, s);
+			if (s == "quit") return Token(quit);
+			return Token(name);  // NOT SURE
 		}
 		error("Bad token");
+        return Token(quit);
 	}
 }
 
@@ -107,6 +109,7 @@ double get_value(string s)
 	for (int i = 0; i < names.size(); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ", s);
+    return 0;
 }
 
 void set_value(string s, double d)
@@ -147,6 +150,7 @@ double primary()
 		return get_value(t.name);
 	default:
 		error("primary expected");
+        return 0;
 	}
 }
 
