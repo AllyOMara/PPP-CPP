@@ -11,6 +11,9 @@
 #include "std_lib_facilities.h"
 
 
+class negativeSquareRoot{};
+
+
 class Token {
 public:
     char kind;  // What kind of token (e.g. '+', '*', etc.)
@@ -184,6 +187,7 @@ double primary()
 			double expr = expression();
 			t = ts.get();
 			if (t.kind != ')') error("')' expected");
+			if (expr < 0) throw negativeSquareRoot{};  // Tried to get square root of a negative number
 			return sqrt(expr);
 		}
 		default:
@@ -311,6 +315,10 @@ catch (exception& e) {
 	char c;
 	while (cin >> c && c != ';');
 	return 1;
+}
+catch (negativeSquareRoot) {
+	cerr << "tried to get square root of a negative number";
+	clean_up_mess();
 }
 catch (...) {
 	cerr << "exception\n";
