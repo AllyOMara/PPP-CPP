@@ -165,21 +165,32 @@ double primary()
 {
 	Token t = ts.get();
 	switch (t.kind) {
-	case '(':  // handle '(' expression ')'
-	{	double d = expression();
-	t = ts.get();
-	if (t.kind != ')') error("'(' expected");
+		case '(':  // handle '(' expression ')'
+		{	double d = expression();
+		t = ts.get();
+		if (t.kind != ')') error("'(' expected");
+		break;
+		}
+		case '-':
+			return -primary();
+		case number:
+			return t.value;
+		case name:
+			return get_value(t.name);
+		case squareRoot:  // Handles square roots
+		{
+			Token open = ts.get();  // Gets an open bracket
+			if (open.kind != '(') error("'(' expected");
+			double expr = expression();
+			t = ts.get();
+			if (t.kind != ')') error("')' expected");
+			return sqrt(expr);
+		}
+		default:
+			error("primary expected");
+			return 0;
 	}
-	case '-':
-		return -primary();
-	case number:
-		return t.value;
-	case name:
-		return get_value(t.name);
-	default:
-		error("primary expected");
-        return 0;
-	}
+	return 0;
 }
 
 
@@ -270,7 +281,8 @@ void calculate()
 		Token t = ts.get();
 		while (t.kind == print) t = ts.get();
 		if (t.kind == quit) return;
-		ts.unget(t);
+		if (t.kind == squareRoot) ts.unget(Token{squareRoot});
+		else ts.unget(t);
 		cout << result << statement() << endl;
 	}
 	catch (runtime_error& e) {
