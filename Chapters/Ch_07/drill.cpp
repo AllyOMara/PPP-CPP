@@ -9,27 +9,30 @@
 
 #include "std_lib_facilities.h"
 
-struct Token {
-	char kind;
-	double value;
-	string name;
+class Token {
+public:
+    char kind;  // What kind of token (e.g. '+', '*', etc.)
+	double value;  // Token value for numbers
+	string name;  // For variables
 	Token(char ch) :kind(ch), value(0) {}
 	Token(char ch, double val) :kind(ch), value(val) {}
+    Token(char ch, string n) :kind{ch}, name{n} {}
 };
 
 class Token_stream {
 private:
-    bool full;
-	Token buffer;
+    bool full = false;  // Indicates if there is a Token in the buffer
+	Token buffer;  // Holds a Token (which was put back using unget())
 public:
-	Token_stream() :full(0), buffer(0) {}
+	Token_stream() :full(0), buffer(0) {}  // Make the token stream
 
-	Token get();
+    Token get();  // Gets the next token
 	void unget(Token t) { buffer = t; full = true; }
 
 	void ignore(char);
 };
 
+// 'Kind' values for Tokens
 const char let = 'L';
 const char quit = 'Q';
 const char print = ';';
@@ -38,9 +41,9 @@ const char name = 'a';
 
 Token Token_stream::get()
 {
-	if (full) { full = false; return buffer; }
+	if (full) { full = false; return buffer; }  // Returns Token in buffer (if there exists one)
 	char ch;
-	cin >> ch;
+	cin >> ch;  // Waits for the next input
 	switch (ch) {
 	case '(':
 	case ')':
@@ -51,7 +54,7 @@ Token Token_stream::get()
 	case '%':
 	case ';':
 	case '=':
-		return Token(ch);
+		return Token(ch);  // Let each character represent itself
 	case '.':
 	case '0':
 	case '1':
@@ -63,28 +66,32 @@ Token Token_stream::get()
 	case '7':
 	case '8':
 	case '9':
-	{	cin.unget();
+	{	cin.unget();  // Put digit back into the input stream
 	double val;
-	cin >> val;
+	cin >> val;  // read a floating-point number
 	return Token(number, val);
 	}
 	default:
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s = ch;
+			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
 			cin.unget();
 			if (s == "let") return Token(let);
 			if (s == "quit") return Token(quit);
-			return Token(name);  // NOT SURE
+			return Token(name, s);
 		}
 		error("Bad token");
         return Token(quit);
 	}
+    return Token(quit);
 }
 
 void Token_stream::ignore(char c)
 {
+    // "Cleans up" the input, removing all input until a terminating ";" (for
+    // print) is reached
+
 	if (full && c == buffer.kind) {
 		full = false;
 		return;
@@ -96,8 +103,10 @@ void Token_stream::ignore(char c)
 		if (ch == c) return;
 }
 
-struct Variable {
-	string name;
+class Variable {
+    // Represents a user-defined variable
+public:
+    string name;
 	double value;
 	Variable(string n, double v) :name(n), value(v) { }
 };
@@ -106,6 +115,7 @@ vector<Variable> names;
 
 double get_value(string s)
 {
+    // Retrieves the value of the inputted user-defined variable
 	for (int i = 0; i < names.size(); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ", s);
@@ -114,6 +124,7 @@ double get_value(string s)
 
 void set_value(string s, double d)
 {
+    // Stores the value of a user-defined variable
 	for (int i = 0; i <= names.size(); ++i)
 		if (names[i].name == s) {
 			names[i].value = d;
@@ -124,6 +135,7 @@ void set_value(string s, double d)
 
 bool is_declared(string s)
 {
+    // Checks if a user-defined varible has been declared
 	for (int i = 0; i < names.size(); ++i)
 		if (names[i].name == s) return true;
 	return false;
@@ -137,7 +149,7 @@ double primary()
 {
 	Token t = ts.get();
 	switch (t.kind) {
-	case '(':
+	case '(':  // handle '(' expression ')'
 	{	double d = expression();
 	t = ts.get();
 	if (t.kind != ')') error("'(' expected");
