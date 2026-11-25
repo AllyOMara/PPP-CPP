@@ -7,7 +7,9 @@
 	We have inserted 3 bugs that the compiler will catch and 3 that it won't.
 */
 
+
 #include "std_lib_facilities.h"
+
 
 class Token {
 public:
@@ -18,6 +20,7 @@ public:
 	Token(char ch, double val) :kind(ch), value(val) {}
     Token(char ch, string n) :kind{ch}, name{n} {}
 };
+
 
 class Token_stream {
 private:
@@ -32,12 +35,15 @@ public:
 	void ignore(char);
 };
 
+
 // 'Kind' values for Tokens
 const char let = 'L';
+const char name = 'a';
 const char quit = 'Q';
 const char print = ';';
 const char number = '8';
-const char name = 'a';
+const char squareRoot = 's';
+
 
 Token Token_stream::get()
 {
@@ -79,6 +85,7 @@ Token Token_stream::get()
 			cin.unget();
 			if (s == "let") return Token(let);
 			if (s == "quit") return Token(quit);
+            if (s == "sqrt") return Token(squareRoot);
 			return Token(name, s);
 		}
 		error("Bad token");
@@ -86,6 +93,7 @@ Token Token_stream::get()
 	}
     return Token(quit);
 }
+
 
 void Token_stream::ignore(char c)
 {
@@ -103,6 +111,7 @@ void Token_stream::ignore(char c)
 		if (ch == c) return;
 }
 
+
 class Variable {
     // Represents a user-defined variable
 public:
@@ -111,7 +120,9 @@ public:
 	Variable(string n, double v) :name(n), value(v) { }
 };
 
+
 vector<Variable> names;
+
 
 double get_value(string s)
 {
@@ -121,6 +132,7 @@ double get_value(string s)
 	error("get: undefined name ", s);
     return 0;
 }
+
 
 void set_value(string s, double d)
 {
@@ -133,6 +145,7 @@ void set_value(string s, double d)
 	error("set: undefined name ", s);
 }
 
+
 bool is_declared(string s)
 {
     // Checks if a user-defined varible has been declared
@@ -141,9 +154,12 @@ bool is_declared(string s)
 	return false;
 }
 
+
 Token_stream ts;
 
+
 double expression();
+
 
 double primary()
 {
@@ -165,6 +181,7 @@ double primary()
         return 0;
 	}
 }
+
 
 double term()
 {
@@ -188,6 +205,7 @@ double term()
 	}
 }
 
+
 double expression()
 {
 	double left = term();
@@ -207,6 +225,7 @@ double expression()
 	}
 }
 
+
 double declaration()
 {
 	Token t = ts.get();
@@ -220,6 +239,7 @@ double declaration()
 	return d;
 }
 
+
 double statement()
 {
 	Token t = ts.get();
@@ -232,13 +252,16 @@ double statement()
 	}
 }
 
+
 void clean_up_mess()
 {
 	ts.ignore(print);
 }
 
+
 const string prompt = "> ";
 const string result = "= ";
+
 
 void calculate()
 {
@@ -256,9 +279,18 @@ void calculate()
 	}
 }
 
-int main()
 
+void predefineVars()
+{
+    // List of predefined variables
+    names.push_back(Variable("k", 1000));
+    names.push_back(Variable("pi", 3.14159));
+}
+
+
+int main()
 try {
+    predefineVars();
 	calculate();
 	return 0;
 }
