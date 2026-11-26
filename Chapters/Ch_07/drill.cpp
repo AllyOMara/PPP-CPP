@@ -44,6 +44,7 @@ const char let = 'L';
 const char name = 'a';
 const char quit = 'Q';
 const char print = ';';
+const char power = 'p';
 const char number = '8';
 const char squareRoot = 's';
 
@@ -63,6 +64,7 @@ Token Token_stream::get()
 	case '%':
 	case ';':
 	case '=':
+	case ',':
 		return Token(ch);  // Let each character represent itself
 	case '.':
 	case '0':
@@ -87,6 +89,7 @@ Token Token_stream::get()
 			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
 			cin.unget();
 			if (s == "let") return Token(let);
+			if (s == "pow") return Token(power);
 			if (s == "quit") return Token(quit);
             if (s == "sqrt") return Token(squareRoot);
 			return Token(name, s);
@@ -164,6 +167,42 @@ Token_stream ts;
 double expression();
 
 
+double getSquareRoot()
+{
+	Token open = ts.get();  // Gets an open bracket
+	if (open.kind != '(') error("'(' expected");
+	double expr = expression();
+	Token t = ts.get();
+	if (t.kind != ')') error("')' expected");
+	if (expr < 0) throw negativeSquareRoot{};  // Tried to get square root of a negative number
+	return sqrt(expr);
+}
+
+
+double primary();
+
+
+double getPower()
+{
+	Token open = ts.get();
+	Token x = primary();
+	Token comma = ts.get();
+	Token i = primary();
+	Token close = ts.get();
+	double answer = x.value;
+
+	if (open.kind != '(') error ("'(' expected");
+	if (comma.kind != ',') error("Comma expected when calling pow(x, i)");
+	if (int(i.value) != i.value) error("Attempted to evaluate a fractional power");
+	if (close.kind != ')') error ("')' expected");
+	
+	for (int j = 0; j < i.value; ++j) {
+		answer *= x.value;
+	}
+	return answer;
+}
+
+
 double primary()
 {
 	Token t = ts.get();
@@ -182,14 +221,10 @@ double primary()
 			return get_value(t.name);
 		case squareRoot:  // Handles square roots
 		{
-			Token open = ts.get();  // Gets an open bracket
-			if (open.kind != '(') error("'(' expected");
-			double expr = expression();
-			t = ts.get();
-			if (t.kind != ')') error("')' expected");
-			if (expr < 0) throw negativeSquareRoot{};  // Tried to get square root of a negative number
-			return sqrt(expr);
+			return getSquareRoot();
 		}
+		case power:  // Handles power (i.e. pow(x, i))
+			return getPower();
 		default:
 			error("primary expected");
 			return 0;
@@ -198,6 +233,7 @@ double primary()
 }
 
 
+// Handles *, /, and %
 double term()
 {
 	double left = primary();
@@ -213,6 +249,11 @@ double term()
 		left /= d;
 		break;
 		}
+		case '%':
+		{	int firstInt = int(left);
+			int secondInt = int(primary());
+			return (firstInt % secondInt);
+		}
 		default:
 			ts.unget(t);
 			return left;
@@ -221,6 +262,7 @@ double term()
 }
 
 
+// Handles + and -
 double expression()
 {
 	double left = term();
@@ -285,12 +327,15 @@ void calculate()
 		Token t = ts.get();
 		while (t.kind == print) t = ts.get();
 		if (t.kind == quit) return;
-		if (t.kind == squareRoot) ts.unget(Token{squareRoot});
 		else ts.unget(t);
 		cout << result << statement() << endl;
 	}
 	catch (runtime_error& e) {
 		cerr << e.what() << endl;
+		clean_up_mess();
+	}
+	catch (negativeSquareRoot) {
+		cerr << "tried to get square root of a negative number";
 		clean_up_mess();
 	}
 }
@@ -300,10 +345,11 @@ void introduction()
 {
 	cout << "Welcome to the calculator!\n\n~ ~ ~ ~ ~ ~ ~";
 	cout << "The following operations are supported:\n";
-	cout << "Basic arithmetic: +, -, *, /, % (modulo)";
-	cout << "Variable assignment: let [var name] = [value / expression]";
-	cout << "Basic functions: sqrt(expression / value)";
-	cout << "Basic constants: k (= 1000), pi, and e";
+	cout << "Basic arithmetic: +, -, *, /, % (modulo)\n";
+	cout << "Variable assignment: let [var name] = [value / expression]\n";
+	cout << "Basic functions: sqrt(expression / value)\n";
+	cout << "Basic constants: k (= 1000), pi, and e\n\n";
+	cout << "~ ~ ~ ~ ~ ~ ~\n\n";
 }
 
 
@@ -320,6 +366,7 @@ void predefineVars()
 int main()
 try {
     predefineVars();
+	introduction();
 	calculate();
 	return 0;
 }
@@ -328,10 +375,6 @@ catch (exception& e) {
 	char c;
 	while (cin >> c && c != ';');
 	return 1;
-}
-catch (negativeSquareRoot) {
-	cerr << "tried to get square root of a negative number";
-	clean_up_mess();
 }
 catch (...) {
 	cerr << "exception\n";
