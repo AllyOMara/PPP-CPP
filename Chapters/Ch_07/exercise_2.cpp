@@ -7,6 +7,8 @@
 
 
 class negativeSquareRoot{};
+class negativeFactorial{};
+class missingEquals{};
 
 
 class Token {
@@ -38,10 +40,25 @@ public:
 const char let = 'L';
 const char name = 'a';
 const char quit = 'Q';
+const char fact = '!';
 const char print = ';';
 const char power = 'p';
 const char number = '8';
 const char squareRoot = 's';
+
+
+int factorial(int x)
+{
+    if (x == 0 || x == 1) return 1;
+    if (x < 0) error("Factoral of a negative number");
+    int ans = 1;
+    int i = 1;
+    while (i <= x) {
+        ans *= i;
+        ++i;
+    }
+    return ans;
+}
 
 
 Token Token_stream::get()
@@ -79,6 +96,8 @@ Token Token_stream::get()
 	}
 	case '#':
 		return Token(let);
+    case '!':
+        return Token(fact);
 	default:
 		if (isalpha(ch)) {
 			string s;
@@ -199,6 +218,7 @@ double getPower()
 	return answer;
 }
 
+bool canFactorial = true;
 
 double primary()
 {
@@ -211,9 +231,14 @@ double primary()
 		break;
 		}
 		case '-':
+            canFactorial = false;
 			return -primary();
 		case number:
-			return t.value;
+        {   Token t1 = ts.get();
+            if (t1.kind == fact && canFactorial) return factorial(t.value);
+            if (t1.kind == fact && !canFactorial) throw negativeFactorial{};
+            else {ts.unget(t1); return t.value;}  // return the number's value
+        }
 		case name:
 			return get_value(t.name);
 		case squareRoot:  // Handles square roots
@@ -221,7 +246,6 @@ double primary()
 			return getSquareRoot();
 		}
 		case power:  // Handles power (i.e. pow(x, i))
-			return getPower();
 		default:
 			error("primary expected");
 			return 0;
@@ -234,6 +258,7 @@ double primary()
 double term()
 {
 	double left = primary();
+    canFactorial = true;
 	while (true) {
 		Token t = ts.get();
 		switch (t.kind) {
@@ -284,13 +309,13 @@ double updateVarVal(string name) {
     for (int i = 0; i < names.size(); ++i) {
         if (names[i].name == name) {
             Token t2 = ts.get();
-            if (t2.kind != '=') error("= missing when updating ", name);
+            if (t2.kind != '=') throw missingEquals{};
             double d = expression();
             names[i].value = d;  // Update value
             return d;
         }
     }
-    error("Could not rename variable.");
+    error("Failed to rename variable");
     return 0.0;
 }
 
@@ -353,9 +378,17 @@ void calculate()
 		clean_up_mess();
 	}
 	catch (negativeSquareRoot) {
-		cerr << "tried to get square root of a negative number";
+		cerr << "tried to get square root of a negative number\n";
 		clean_up_mess();
 	}
+    catch (negativeFactorial) {
+        cerr << ("Can not get factorial of negative number.\n");
+        clean_up_mess();
+    }
+    catch (missingEquals) {
+        cerr << ("= missing when updating ", name);
+        clean_up_mess();
+    }
 }
 
 
@@ -363,7 +396,7 @@ void introduction()
 {
 	cout << "Welcome to the calculator!\n\n~ ~ ~ ~ ~ ~ ~\n\n";
 	cout << "The following operations are supported:\n";
-	cout << "Basic arithmetic: +, -, *, /, % (modulo)\n";
+	cout << "Basic arithmetic: +, -, *, /, % (modulo), and ! (factorial)\n";
 	cout << "Variable assignment: let [var name] = [value / expression] (including updating variable values)\n";
 	cout << "Basic functions: sqrt(expression / value) and pow(x, i) (= x^i)\n";
 	cout << "Basic constants: k (= 1000), pi, and e\n";
