@@ -208,7 +208,7 @@ double primary()
 {
 	Token t = ts.get();
 	switch (t.kind) {
-		case '(':  // handle '(' expression ')'
+		case '(':  // Handle '(' expression ')'
 		{	double d = expression();
 		t = ts.get();
 		if (t.kind != ')') error("'(' expected");
@@ -352,7 +352,6 @@ void introduction()
 	cout << "Basic constants: k (= 1000), pi, and e\n\n";
 	cout << "~ ~ ~ ~ ~ ~ ~\n\n";
 }
-
 
 
 void predefineVars()
