@@ -282,14 +282,16 @@ double expression()
 
 double updateVarVal(string name) {
     for (int i = 0; i < names.size(); ++i) {
-                if (names[i].name == name) {
-                    Token t2 = ts.get();
-                    if (t2.kind != '=') error("= missing when updating ", name);
-                    double d = expression();
-                    names[i].value = d;  // Update value
-                    return d;
-                }
+        if (names[i].name == name) {
+            Token t2 = ts.get();
+            if (t2.kind != '=') error("= missing when updating ", name);
+            double d = expression();
+            names[i].value = d;  // Update value
+            return d;
+        }
     }
+    error("Could not rename variable.");
+    return 0.0;
 }
 
 
@@ -362,9 +364,10 @@ void introduction()
 	cout << "Welcome to the calculator!\n\n~ ~ ~ ~ ~ ~ ~\n\n";
 	cout << "The following operations are supported:\n";
 	cout << "Basic arithmetic: +, -, *, /, % (modulo)\n";
-	cout << "Variable assignment: let [var name] = [value / expression]\n";
+	cout << "Variable assignment: let [var name] = [value / expression] (including updating variable values)\n";
 	cout << "Basic functions: sqrt(expression / value) and pow(x, i) (= x^i)\n";
-	cout << "Basic constants: k (= 1000), pi, and e\n\n";
+	cout << "Basic constants: k (= 1000), pi, and e\n";
+    cout << "Please enter 'quit' or 'exit' to quit.\n\n";
 	cout << "~ ~ ~ ~ ~ ~ ~\n\n";
 }
 
