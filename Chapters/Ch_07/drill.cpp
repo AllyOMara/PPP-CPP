@@ -82,15 +82,16 @@ Token Token_stream::get()
 	cin >> val;  // read a floating-point number
 	return Token(number, val);
 	}
+	case '#':
+		return Token(let);
 	default:
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
 			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
 			cin.unget();
-			if (s == "let") return Token(let);
 			if (s == "pow") return Token(power);
-			if (s == "quit") return Token(quit);
+			if (s == "quit" | s == "exit") return Token(quit);
             if (s == "sqrt") return Token(squareRoot);
 			return Token(name, s);
 		}
@@ -347,7 +348,7 @@ void introduction()
 	cout << "The following operations are supported:\n";
 	cout << "Basic arithmetic: +, -, *, /, % (modulo)\n";
 	cout << "Variable assignment: let [var name] = [value / expression]\n";
-	cout << "Basic functions: sqrt(expression / value)\n";
+	cout << "Basic functions: sqrt(expression / value) and pow(x, i) (= x^i)\n";
 	cout << "Basic constants: k (= 1000), pi, and e\n\n";
 	cout << "~ ~ ~ ~ ~ ~ ~\n\n";
 }
