@@ -185,19 +185,19 @@ double primary();
 double getPower()
 {
 	Token open = ts.get();
-	Token x = primary();
+	double x = expression();
 	Token comma = ts.get();
-	Token i = primary();
+	double i = expression();
 	Token close = ts.get();
-	double answer = x.value;
+	double answer = x;
 
 	if (open.kind != '(') error ("'(' expected");
 	if (comma.kind != ',') error("Comma expected when calling pow(x, i)");
-	if (int(i.value) != i.value) error("Attempted to evaluate a fractional power");
+	if (int(i) != i) error("Can not evaluate a fractional power");
 	if (close.kind != ')') error ("')' expected");
 	
-	for (int j = 0; j < i.value; ++j) {
-		answer *= x.value;
+	for (int j = 1; j < i; ++j) {
+		answer *= x;
 	}
 	return answer;
 }
@@ -343,7 +343,7 @@ void calculate()
 
 void introduction()
 {
-	cout << "Welcome to the calculator!\n\n~ ~ ~ ~ ~ ~ ~";
+	cout << "Welcome to the calculator!\n\n~ ~ ~ ~ ~ ~ ~\n\n";
 	cout << "The following operations are supported:\n";
 	cout << "Basic arithmetic: +, -, *, /, % (modulo)\n";
 	cout << "Variable assignment: let [var name] = [value / expression]\n";
