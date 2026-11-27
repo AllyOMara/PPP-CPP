@@ -219,7 +219,9 @@ double getPower()
 	return answer;
 }
 
+
 bool canFactorial = true;
+
 
 double primary()
 {
