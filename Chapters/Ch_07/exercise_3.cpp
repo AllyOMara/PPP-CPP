@@ -422,6 +422,7 @@ void introduction()
 	cout << "The following operations are supported:\n";
 	cout << "Basic arithmetic: +, -, *, /, % (modulo), and ! (factorial)\n";
 	cout << "Variable assignment: let [var name] = [value / expression] (including updating variable values)\n";
+	cout << "Constant assignment: const [var name] = [value / expression] (can not be changed once assigned)\n";
 	cout << "Basic functions: sqrt(expression / value) and pow(x, i) (= x^i)\n";
 	cout << "Basic constants: k (= 1000), pi, and e\n";
     cout << "Please enter 'quit' or 'exit' to quit.\n\n";
