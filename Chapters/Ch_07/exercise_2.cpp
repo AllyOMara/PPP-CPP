@@ -8,6 +8,7 @@
 
 class negativeSquareRoot{};
 class negativeFactorial{};
+class factorialOfNonInt{};
 class missingEquals{};
 
 
@@ -235,7 +236,9 @@ double primary()
 			return -primary();
 		case number:
         {   Token t1 = ts.get();
-            if (t1.kind == fact && canFactorial) return factorial(t.value);
+            if (t1.kind == fact && canFactorial && int(t.value) == t.value) return factorial(t.value);
+			if (t1.kind == fact && canFactorial && int(t.value) != t.value) throw factorialOfNonInt{};
+
             if (t1.kind == fact && !canFactorial) throw negativeFactorial{};
             else {ts.unget(t1); return t.value;}  // return the number's value
         }
@@ -246,6 +249,7 @@ double primary()
 			return getSquareRoot();
 		}
 		case power:  // Handles power (i.e. pow(x, i))
+			return getPower();
 		default:
 			error("primary expected");
 			return 0;
@@ -383,8 +387,13 @@ void calculate()
 	}
     catch (negativeFactorial) {
         cerr << ("Can not get factorial of negative number.\n");
+		canFactorial = true;
         clean_up_mess();
     }
+	catch (factorialOfNonInt) {
+		cerr << ("Can not get factorial of a non-integer number.\n");
+		clean_up_mess();
+	}
     catch (missingEquals) {
         cerr << ("= missing when updating ", name);
         clean_up_mess();
