@@ -1,12 +1,13 @@
 // Provide named constants that you really can't change the value of.
 
 
-
 #include "std_lib_facilities.h"
 
 
+class attemptedChangeConst{};
 class negativeSquareRoot{};
 class negativeFactorial{};
+class factorialOfNonInt{};
 class missingEquals{};
 
 
@@ -43,6 +44,7 @@ const char fact = '!';
 const char print = ';';
 const char power = 'p';
 const char number = '8';
+const char constant = 'c';
 const char squareRoot = 's';
 
 
@@ -103,9 +105,10 @@ Token Token_stream::get()
 			s += ch;
 			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_')) s += ch;
 			cin.unget();
-			if (s == "pow") return Token(power);
-			if (s == "quit" | s == "exit") return Token(quit);
+			if (s == "const") return Token(constant);
             if (s == "sqrt") return Token(squareRoot);
+			if (s == "quit" | s == "exit") return Token(quit);
+			if (s == "pow") return Token(power);
             if (s == "let") return Token(let);
 			return Token(name, s);
 		}
@@ -138,7 +141,8 @@ class Variable {
 public:
     string name;
 	double value;
-	Variable(string n, double v) :name(n), value(v) { }
+	bool constant;
+	Variable(string n, double v, bool c) :name(n), value(v), constant(c) {}
 };
 
 
@@ -217,7 +221,9 @@ double getPower()
 	return answer;
 }
 
+
 bool canFactorial = true;
+
 
 double primary()
 {
@@ -234,7 +240,9 @@ double primary()
 			return -primary();
 		case number:
         {   Token t1 = ts.get();
-            if (t1.kind == fact && canFactorial) return factorial(t.value);
+            if (t1.kind == fact && canFactorial && int(t.value) == t.value) return factorial(t.value);
+			if (t1.kind == fact && canFactorial && int(t.value) != t.value) throw factorialOfNonInt{};
+
             if (t1.kind == fact && !canFactorial) throw negativeFactorial{};
             else {ts.unget(t1); return t.value;}  // return the number's value
         }
@@ -245,6 +253,7 @@ double primary()
 			return getSquareRoot();
 		}
 		case power:  // Handles power (i.e. pow(x, i))
+			return getPower();
 		default:
 			error("primary expected");
 			return 0;
@@ -307,7 +316,8 @@ double expression()
 double updateVarVal(string name) {
     for (int i = 0; i < names.size(); ++i) {
         if (names[i].name == name) {
-            Token t2 = ts.get();
+            if (names[i].constant == true) throw attemptedChangeConst{};
+			Token t2 = ts.get();
             if (t2.kind != '=') throw missingEquals{};
             double d = expression();
             names[i].value = d;  // Update value
@@ -319,7 +329,7 @@ double updateVarVal(string name) {
 }
 
 
-double declaration()
+double declaration(bool changeable)
 {
 	Token t = ts.get();
 	if (t.kind != 'a') error("name expected in declaration");
@@ -331,7 +341,7 @@ double declaration()
         Token t2 = ts.get();
         if (t2.kind != '=') error("= missing in declaration of ", name);
         double d = expression();
-        names.push_back(Variable(name, d));
+        names.push_back(Variable(name, d, changeable));
         return d;
     }
     error("Invalid declaration");
@@ -339,12 +349,18 @@ double declaration()
 }
 
 
+bool changable = false;
+bool unchangable = true;
+
+
 double statement()
 {
 	Token t = ts.get();
 	switch (t.kind) {
 	case let:
-		return declaration();
+		return declaration(changable);
+	case constant:
+		return declaration(unchangable);
 	default:
 		ts.unget(t);
 		return expression();
@@ -382,12 +398,21 @@ void calculate()
 	}
     catch (negativeFactorial) {
         cerr << ("Can not get factorial of negative number.\n");
+		canFactorial = true;
         clean_up_mess();
     }
+	catch (factorialOfNonInt) {
+		cerr << ("Can not get factorial of a non-integer number.\n");
+		clean_up_mess();
+	}
     catch (missingEquals) {
         cerr << ("= missing when updating ", name);
         clean_up_mess();
     }
+	catch (attemptedChangeConst) {
+		cerr << ("Attempted to change a constant value\n");
+		clean_up_mess();
+	}
 }
 
 
@@ -408,9 +433,10 @@ void introduction()
 void predefineVars()
 {
     // List of predefined variables
-    names.push_back(Variable("k", 1000));
-    names.push_back(Variable("pi", 3.14159));
-	names.push_back(Variable("e", 2.71828));
+    bool constant = true;
+	names.push_back(Variable("k", 1000, constant));
+    names.push_back(Variable("pi", 3.14159, constant));
+	names.push_back(Variable("e", 2.71828, constant));
 }
 
 
